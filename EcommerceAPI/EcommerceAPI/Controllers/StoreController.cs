@@ -1,12 +1,8 @@
 ﻿using EcommerceAPI.Model;
 using EcommerceAPI.Repository;
-using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Configuration;
-using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
 
 namespace EcommerceAPI.Controllers
 {
@@ -53,7 +49,6 @@ namespace EcommerceAPI.Controllers
         public IActionResult DeleteStore(int Id)
         {
             IActionResult result;
-   
             this._storeRepository.DeleteStoreById(Id);
             result = new StatusCodeResult(200);
             return result;
@@ -64,8 +59,7 @@ namespace EcommerceAPI.Controllers
         //Insert store detail in store.
         [HttpPost("AddStore")]
         public IActionResult AddStore([FromBody]Store store)
-        {
-           
+        {           
             IActionResult result;
              this._storeRepository.InsertIntoStore( store);
             result = new StatusCodeResult(200);
@@ -78,13 +72,11 @@ namespace EcommerceAPI.Controllers
         [HttpPut("UpdateStore")]
         public IActionResult UpdateStore([FromBody] Store store)
         {
-          
             IActionResult result;
             this._storeRepository.UpdateStoreById(store);
             result = new StatusCodeResult(200);
             return result;
         }
        #endregion
-
     }
 }

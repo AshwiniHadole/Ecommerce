@@ -1,12 +1,8 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
 
 namespace EcommerceAPI.Model
 {
     public class Store
-
     { 
 		public int StoreId { get; set; }
 		public int UserId { get; set; }
@@ -21,9 +17,3 @@ namespace EcommerceAPI.Model
 		public bool Active { get; set; }
 	}
 }
-
-
-
-
-
-

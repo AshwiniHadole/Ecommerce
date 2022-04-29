@@ -1,12 +1,11 @@
 ﻿using Dapper;
 using EcommerceAPI.Model;
+using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Configuration;
-using System;
 using System.Collections.Generic;
 using System.Data;
 using System.Data.SqlClient;
 using System.Linq;
-using System.Threading.Tasks;
 
 namespace EcommerceAPI.Repository
 {
@@ -68,26 +67,46 @@ namespace EcommerceAPI.Repository
         #region Add Store
         public void InsertIntoStore(Store store)
         {
-      
             using (IDbConnection Conn = new SqlConnection(this._config.GetSection("ConnectionStrings").GetSection("EmployeeAppCon").Value))
             {
-              Conn.Execute(@"INSERT INTO TblStore VALUES (@UserId,@Name,@TagLine,@Theme,@BackGroundImage,@SupportsMultipleLang,@StoreRoute,@CreatedOn,@CreatedBy,@Active)", new
+                if (checkduplicate(store.Name))
                 {
-                 
-                    UserId = store.UserId,
-                    Name = store.Name,
-                    TagLine = store.TagLine,
-                    Theme = store.Theme,
-                    BackGroundImage = store.BackGroundImage,
-                    SupportsMultipleLang = store.SupportsMultipleLang,
-                    StoreRoute = store.StoreRoute,
-                    CreatedOn = System.DateTime.Now,
-                    CreatedBy = store.CreatedBy,
-                    Active = store.Active,
-                });
-
+                   new StatusCodeResult(500);
+                }
+                else
+                {
+                    Conn.Execute(@"INSERT INTO TblStore VALUES (@UserId,@Name,@TagLine,@Theme,@BackGroundImage,@SupportsMultipleLang,@StoreRoute,@CreatedOn,@CreatedBy,@Active)", new
+                    {
+                        UserId = store.UserId,
+                        Name = store.Name,
+                        TagLine = store.TagLine,
+                        Theme = store.Theme,
+                        BackGroundImage = store.BackGroundImage,
+                        SupportsMultipleLang = store.SupportsMultipleLang,
+                        StoreRoute = store.StoreRoute,
+                        CreatedOn = System.DateTime.Now,
+                        CreatedBy = store.CreatedBy,
+                        Active = store.Active,
+                    });
+                }
             }
-
+        }
+        private bool checkduplicate(object name)
+        {
+            Store data = new Store();
+            using (IDbConnection Conn = new SqlConnection(this._config.GetSection("ConnectionStrings").GetSection("EmployeeAppCon").Value))
+            {
+                data = Conn.Query<Store>(@"SELECT*FROM TblStore WHERE Name=@Name ", new
+                { Name = name }).FirstOrDefault();
+            }
+            if (data != null)
+            {
+                return true;
+            }
+            else
+            {
+                return false;
+            }
         }
         #endregion
 
@@ -110,10 +129,8 @@ namespace EcommerceAPI.Repository
                     CreatedBy = store.CreatedBy,
                     Active = store.Active
                 });
-
             }
-        #endregion
         }
+        #endregion
     }
-
 }
