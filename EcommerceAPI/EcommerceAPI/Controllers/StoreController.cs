@@ -61,8 +61,9 @@ namespace EcommerceAPI.Controllers
         public IActionResult AddStore([FromBody]Store store)
         {           
             IActionResult result;
-             this._storeRepository.InsertIntoStore( store);
-            result = new StatusCodeResult(200);
+            string A;
+            A= this._storeRepository.CreateStore( store);
+            result = Ok(A);
             return result;
         }
         #endregion

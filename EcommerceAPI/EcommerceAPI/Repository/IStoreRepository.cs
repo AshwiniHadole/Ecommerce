@@ -8,7 +8,7 @@ namespace EcommerceAPI.Repository
         IEnumerable<Store> GetAllStore(int userid);
         public Store GetStoreById(int storeid);
         public void DeleteStoreById(int Id);
-        public void InsertIntoStore(Store store);
+        public string CreateStore(Store store);
         public void UpdateStoreById(Store store);
     }
 }

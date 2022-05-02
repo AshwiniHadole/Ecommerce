@@ -2,6 +2,7 @@
 using EcommerceAPI.Model;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Configuration;
+using System;
 using System.Collections.Generic;
 using System.Data;
 using System.Data.SqlClient;
@@ -65,13 +66,15 @@ namespace EcommerceAPI.Repository
         #endregion
 
         #region Add Store
-        public void InsertIntoStore(Store store)
+        public string CreateStore(Store store)
         {
+            string A = "";
+
             using (IDbConnection Conn = new SqlConnection(this._config.GetSection("ConnectionStrings").GetSection("EmployeeAppCon").Value))
             {
                 if (checkduplicate(store.Name))
                 {
-                   new StatusCodeResult(500);
+                    A = "Name already exist";
                 }
                 else
                 {
@@ -88,9 +91,12 @@ namespace EcommerceAPI.Repository
                         CreatedBy = store.CreatedBy,
                         Active = store.Active,
                     });
+                    A = "Data inserted successfully";
                 }
+                return A;
             }
         }
+
         private bool checkduplicate(object name)
         {
             Store data = new Store();
@@ -109,6 +115,8 @@ namespace EcommerceAPI.Repository
             }
         }
         #endregion
+
+
 
         #region Update store
         public void UpdateStoreById(Store store)
