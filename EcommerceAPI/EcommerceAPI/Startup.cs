@@ -25,6 +25,7 @@ namespace EcommerceAPI
                 c.SwaggerDoc("v1", new OpenApiInfo { Title = "EcommerceAPI", Version = "v1" });
             });
             services.AddTransient<IStoreRepository, StoreRepository>();
+            services.AddTransient<IProductRepository, ProductRepository>();
         }
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
         public void Configure(IApplicationBuilder app, IWebHostEnvironment env)
