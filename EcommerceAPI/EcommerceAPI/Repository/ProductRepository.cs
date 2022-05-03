@@ -26,7 +26,7 @@ namespace EcommerceAPI.Repository
         }
         public IEnumerable<Product> GetAllProduct(int StoreId1)
         {
-            using IDbConnection conn = new SqlConnection(this._config.GetSection("connectionStrings").GetSection("DefaultConnection").Value);
+            using IDbConnection conn = new SqlConnection(this._config.GetSection("ConnectionStrings").GetSection("DefaultConnection").Value);
             {
                 string sQuery = @"Select StoreId,CategoryId,Name,Description,ShowPrice,Price,FavNote,Active FROM Product Where StoreId=@StoreId";
                 return (IEnumerable<Product>)conn.Query<Product>(sQuery, new { StoreId = StoreId1 });
@@ -35,7 +35,7 @@ namespace EcommerceAPI.Repository
 
         public Product GetProductById(int id)
         {
-            using IDbConnection conn = new SqlConnection(this._config.GetSection("connectionStrings").GetSection("DefaultConnection").Value);
+            using IDbConnection conn = new SqlConnection(this._config.GetSection("ConnectionStrings").GetSection("DefaultConnection").Value);
             {
                 string sQuery = @"Select * From Product Where Id=@Id";
                 return conn.Query<Product>(sQuery, new { Id = id }).FirstOrDefault();
@@ -44,7 +44,7 @@ namespace EcommerceAPI.Repository
 
         public void  DeleteProduct(int Id)
         {
-            using IDbConnection conn = new SqlConnection(this._config.GetSection("connectionStrings").GetSection("DefaultConnection").Value);
+            using IDbConnection conn = new SqlConnection(this._config.GetSection("ConnectionStrings").GetSection("DefaultConnection").Value);
             {
                 conn.Execute("Update Product Set Active=0 Where Id=@Id", new { Id = Id });
             }
@@ -52,7 +52,7 @@ namespace EcommerceAPI.Repository
 
         public void UpdateProduct(Product p)
         {
-            using IDbConnection conn = new SqlConnection(this._config.GetSection("connectionStrings").GetSection("DefaultConnection").Value);
+            using IDbConnection conn = new SqlConnection(this._config.GetSection("ConnectionStrings").GetSection("DefaultConnection").Value);
             {
                 string sQuery = @"UPDATE Product SET  StoreId =@StoreId,CategoryId=@CategoryId, Name=@Name,Description=@Description,ShowPrice=@ShowPrice,Price =@Price,FavNote=@FavNote,Active =@Active Where Id=@Id";
                 conn.Execute(sQuery, p);
@@ -61,7 +61,7 @@ namespace EcommerceAPI.Repository
         public bool CheckProduct(string Name)
         {
             Product userdata = new Product();
-            using IDbConnection conn = new SqlConnection(this._config.GetSection("connectionStrings").GetSection("DefaultConnection").Value);
+            using IDbConnection conn = new SqlConnection(this._config.GetSection("ConnectionStrings").GetSection("DefaultConnection").Value);
             {
                 userdata = conn.Query<Product>("SELECT * FROM Product WHERE Name=@Name  And Active=1", new { Name = Name }).FirstOrDefault();
             }
@@ -78,7 +78,7 @@ namespace EcommerceAPI.Repository
         public string CreateProduct(Product p)
         {
             string abc = "";
-            using IDbConnection conn = new SqlConnection(this._config.GetSection("connectionStrings").GetSection("DefaultConnection").Value);
+            using IDbConnection conn = new SqlConnection(this._config.GetSection("ConnectionStrings").GetSection("DefaultConnection").Value);
             {
                 if (CheckProduct(p.Name))
                 {

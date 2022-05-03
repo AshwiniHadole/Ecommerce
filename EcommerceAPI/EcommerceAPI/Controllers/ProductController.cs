@@ -12,11 +12,13 @@ namespace EcommerceAPI.Controllers
     public class ProductController : ControllerBase
     {
         private readonly IProductRepository productRepository;
-  
-        public ProductController(IProductRepository productRepository)
+        protected readonly IEcomlogger logger;
+
+        public ProductController(IProductRepository productRepository, IEcomlogger _logger)
         {
             this.productRepository = productRepository;
-          
+            this.logger = _logger;
+
         }
         #region GetAllProduct
         [HttpGet("GetAllProduct")]
@@ -25,8 +27,10 @@ namespace EcommerceAPI.Controllers
             ActionResult result;
             try
             {
+                this.logger.LogInfo("Get all details by StoreId");
                 IEnumerable<Product> product1 = new List<Product>();
                 product1 = this.productRepository.GetAllProduct(StoreId);
+                this.logger.LogInfo("All Products displayed");
                 result = Ok(product1);
             }
             catch (Exception ex)

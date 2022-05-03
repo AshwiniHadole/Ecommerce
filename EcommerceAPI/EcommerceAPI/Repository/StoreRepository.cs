@@ -22,7 +22,7 @@ namespace EcommerceAPI.Repository
         {
             get
             {
-                return new SqlConnection(this._config.GetConnectionString("EmployeeAppCon"));
+                return new SqlConnection(this._config.GetConnectionString("DefaultConnection"));
             }
         }
         #endregion
@@ -30,7 +30,7 @@ namespace EcommerceAPI.Repository
         #region Delete Store
         public void DeleteStoreById(int Id)
         {
-            using (IDbConnection Conn = new SqlConnection(this._config.GetSection("ConnectionStrings").GetSection("EmployeeAppCon").Value))
+            using (IDbConnection Conn = new SqlConnection(this._config.GetSection("ConnectionStrings").GetSection("DefaultConnection").Value))
             {
                 Conn.Execute(@"UPDATE TblStore SET Active=0 WHERE UserId=@UserId ", new
                 { UserId = Id });
@@ -42,7 +42,7 @@ namespace EcommerceAPI.Repository
         public IEnumerable<Store> GetAllStore(int userid)
         {
             IEnumerable<Store> stores = new List<Store>();
-            using (IDbConnection Conn = new SqlConnection(this._config.GetSection("ConnectionStrings").GetSection("EmployeeAppCon").Value))
+            using (IDbConnection Conn = new SqlConnection(this._config.GetSection("ConnectionStrings").GetSection("DefaultConnection").Value))
             {
                 stores = Conn.Query<Store>(@"SELECT*FROM TblStore WHERE UserId=@UserId AND Active=1", new
                 { UserId = userid }).ToList(); 
@@ -56,7 +56,7 @@ namespace EcommerceAPI.Repository
         public Store GetStoreById(int storeid)
         {
             Store store = new Store();
-            using (IDbConnection Conn = new SqlConnection(this._config.GetSection("ConnectionStrings").GetSection("EmployeeAppCon").Value))
+            using (IDbConnection Conn = new SqlConnection(this._config.GetSection("ConnectionStrings").GetSection("DefaultConnection").Value))
             {
                 store = Conn.Query<Store>(@"SELECT*FROM TblStore WHERE StoreId=@storeid AND Active=1", new
                 { StoreId = storeid }).FirstOrDefault();
@@ -70,7 +70,7 @@ namespace EcommerceAPI.Repository
         {
             string A = "";
 
-            using (IDbConnection Conn = new SqlConnection(this._config.GetSection("ConnectionStrings").GetSection("EmployeeAppCon").Value))
+            using (IDbConnection Conn = new SqlConnection(this._config.GetSection("ConnectionStrings").GetSection("DefaultConnection").Value))
             {
                 if (checkduplicate(store.Name))
                 {
@@ -100,7 +100,7 @@ namespace EcommerceAPI.Repository
         private bool checkduplicate(object name)
         {
             Store data = new Store();
-            using (IDbConnection Conn = new SqlConnection(this._config.GetSection("ConnectionStrings").GetSection("EmployeeAppCon").Value))
+            using (IDbConnection Conn = new SqlConnection(this._config.GetSection("ConnectionStrings").GetSection("DefaultConnection").Value))
             {
                 data = Conn.Query<Store>(@"SELECT*FROM TblStore WHERE Name=@Name ", new
                 { Name = name }).FirstOrDefault();
@@ -121,7 +121,7 @@ namespace EcommerceAPI.Repository
         #region Update store
         public void UpdateStoreById(Store store)
         {
-            using (IDbConnection Conn = new SqlConnection(this._config.GetSection("ConnectionStrings").GetSection("EmployeeAppCon").Value))
+            using (IDbConnection Conn = new SqlConnection(this._config.GetSection("ConnectionStrings").GetSection("DefaultConnection").Value))
             {
                 Conn.Execute(@"UPDATE TblStore SET UserId=@UserId,Name=@Name,TagLine=@TagLine,Theme=@Theme,BackGroundImage=@BackGroundImage,SupportsMultipleLang=@SupportsMultipleLang,StoreRoute=@StoreRoute,CreatedOn=@CreatedOn,CreatedBy=@CreatedBy,Active=@Active WHERE StoreId=@StoreId", new
                 {

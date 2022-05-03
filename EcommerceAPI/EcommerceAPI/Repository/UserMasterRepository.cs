@@ -30,7 +30,7 @@ namespace EcommerceAPI.Repository
                 Result = "UserName already exists.";
             }
             else
-                using (IDbConnection con = new SqlConnection(this.configuration.GetSection("ConnectionStrings").GetSection("Usercon").Value))
+                using (IDbConnection con = new SqlConnection(this.configuration.GetSection("ConnectionStrings").GetSection("DefaultConnection").Value))
                 {
                 con.Execute("INSERT INTO TblUserMaster(FirstName,LastName,UserName,Email,PhoneNumber,Password,RoleId,DateOfRegistration,DateOfActivation,DateOfPlanExpiry,CreatedOn,Active) VALUES (@FirstName,@LastName,@UserName,@Email,@PhoneNumber,@Password,@RoleId,@DateOfRegistration,@DateOfActivation,@DateOfPlanExpiry,@CreatedOn,@Active)", new
                     {
@@ -57,7 +57,7 @@ namespace EcommerceAPI.Repository
         public IEnumerable<UserMaster> GetUserByUserId(int Id)
         {
             IEnumerable<UserMaster> obj;
-            using (IDbConnection con = new SqlConnection(this.configuration.GetSection("ConnectionStrings").GetSection("Usercon").Value))
+            using (IDbConnection con = new SqlConnection(this.configuration.GetSection("ConnectionStrings").GetSection("DefaultConnection").Value))
                 obj = con.Query<UserMaster>("SELECT * FROM TblUserMaster WHERE UserId=@UserId", new
                 {
                     UserId = Id
@@ -66,11 +66,11 @@ namespace EcommerceAPI.Repository
         }
         #endregion
 
-        #region
+        #region CheckUsername
         public int CheckUsername(string UserName)
         {
             UserMaster userdata = new UserMaster();
-            using (IDbConnection con = new SqlConnection(this.configuration.GetSection("ConnectionStrings").GetSection("Usercon").Value))
+            using (IDbConnection con = new SqlConnection(this.configuration.GetSection("ConnectionStrings").GetSection("DefaultConnection").Value))
             {
                 userdata = con.Query<UserMaster>("SELECT * FROM TblUserMaster WHERE UserName=@UserName  And Active=1", new { UserName = UserName }).FirstOrDefault();
             }
