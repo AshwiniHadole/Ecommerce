@@ -10,13 +10,13 @@ using System;
 
 namespace UserMasterNUnitTest
 {
-    public class Tests
+    public class UserMasterTest
     {
         #region Configuration
         private IConfiguration initConfiguration()
         {
             var configuration = new ConfigurationBuilder()
-               .AddJsonFile("./appsettings.Development.json")
+               .AddJsonFile("./appsettings.json")
                 .AddEnvironmentVariables()
                 .Build();
             return configuration;
@@ -24,12 +24,13 @@ namespace UserMasterNUnitTest
         #endregion
 
         #region Controller
-        private UserMasterController createController(IUserMaster _user)
+        private UserMasterController createController(IUserMaster _user, IEcomlogger _logger)
         {
-            var controller = new UserMasterController(_user);
+            UserMasterController controller = new UserMasterController(_user, _logger);
             return controller;
         }
         #endregion
+
         #region Testcases
         [Test]
         public void InsertNewUser()
@@ -60,12 +61,14 @@ namespace UserMasterNUnitTest
             var serviceProvider = serviceCollection.BuildServiceProvider();
             var memoryCache = serviceProvider.GetService<IMemoryCache>();
 
-            IUserMaster UserMasterRepository = new UserMasterRepository(configuration);;
+            IUserMaster UserMasterRepository = new UserMasterRepository(configuration);
+            IEcomlogger EcomLoggerRepository = new EcomLoggerRepository();
 
-            UserMasterController controller = this.createController(UserMasterRepository);
+            UserMasterController controller = this.createController(UserMasterRepository, EcomLoggerRepository);
 
             ActionResult blomodel = (ActionResult)controller.InsertNewUser(usermaster);
         }
+
         [Test]
         public void GetUserByUserId()
         {
@@ -76,9 +79,10 @@ namespace UserMasterNUnitTest
             var serviceProvider = serviceCollection.BuildServiceProvider();
             var memoryCache = serviceProvider.GetService<IMemoryCache>();
 
-            IUserMaster UserMasterRepository = new UserMasterRepository(configuration); ;
+            IUserMaster UserMasterRepository = new UserMasterRepository(configuration);
+            IEcomlogger EcomLoggerRepository = new EcomLoggerRepository();
 
-            UserMasterController controller = this.createController(UserMasterRepository);
+            UserMasterController controller = this.createController(UserMasterRepository, EcomLoggerRepository);
 
             ActionResult blomodel = (ActionResult)controller.GetUserByUserId(36);
         }

@@ -12,11 +12,11 @@ namespace EcommerceAPI.Controllers
     public class ProductController : ControllerBase
     {
         private readonly IProductRepository productRepository;
-        protected readonly IConfiguration _config;
-        public ProductController(IProductRepository productRepository, IConfiguration _config)
+  
+        public ProductController(IProductRepository productRepository)
         {
             this.productRepository = productRepository;
-            this._config = _config;
+          
         }
         #region GetAllProduct
         [HttpGet("GetAllProduct")]
@@ -49,7 +49,7 @@ namespace EcommerceAPI.Controllers
                 product1 = this.productRepository.GetProductById(id);
                 result = Ok(product1);
             }
-            catch (Exception ex)
+                catch (Exception ex)
             {
                 result = StatusCode(500, ex.Message);
             }
@@ -68,7 +68,7 @@ namespace EcommerceAPI.Controllers
                 this.productRepository.DeleteProduct(Id);
                 result = new StatusCodeResult(200);
             }
-            catch (Exception ex)
+            catch (Exception)
             {
                 result = new StatusCodeResult(401);
             }
@@ -84,7 +84,7 @@ namespace EcommerceAPI.Controllers
             try
             {
                 this.productRepository.UpdateProduct(p);
-                result = Ok();
+                result = Ok(p);
             }
             catch (Exception ex)
             {
