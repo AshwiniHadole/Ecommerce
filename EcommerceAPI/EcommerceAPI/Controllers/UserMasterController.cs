@@ -16,10 +16,12 @@ namespace EcommerceAPI.Controllers
         #region Configuration
         protected readonly IConfiguration _config;
         private readonly IUserMaster user;
+        protected readonly IEcomlogger logger;
 
-        public UserMasterController(IUserMaster _user)
+        public UserMasterController(IUserMaster _user,IEcomlogger _logger)
         {
             this.user = _user;
+            this.logger = _logger;
         }
         #endregion
 
@@ -30,13 +32,16 @@ namespace EcommerceAPI.Controllers
             IActionResult result;
             try
             {
+                this.logger.LogInfo("Insert New User Details.");
                 string Newuserdata=this.user.InsertNewUser(add);
+                this.logger.LogInfo("New User Details Inserted.");
                 result = Ok(Newuserdata);
             }
             catch (Exception ex)
             {
                 result = new StatusCodeResult(500);
-                return BadRequest(string.Format(ex.Message));
+                this.logger.LogError(string.Format(ex.Message));
+                return BadRequest("Internal Server Error.");
             }
             return result;
         }
@@ -49,13 +54,16 @@ namespace EcommerceAPI.Controllers
             IActionResult result;
             try
             {
+                this.logger.LogInfo("Get all details by UserId");
                 IEnumerable<UserMaster> obj = this.user.GetUserByUserId(Id);
+                this.logger.LogInfo("All data displayed");
                 result = Ok(obj);
             }
             catch (Exception ex)
             {
                 result = new StatusCodeResult(500);
-                return BadRequest(string.Format(ex.Message));
+                this.logger.LogError(string.Format(ex.Message));
+                return BadRequest("Internal Server Error.");
             }
             return result;
         }
