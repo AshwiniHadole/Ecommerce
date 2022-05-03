@@ -5,6 +5,8 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Microsoft.OpenApi.Models;
+using NLog;
+using System.IO;
 
 namespace EcommerceAPI
 {
@@ -12,6 +14,7 @@ namespace EcommerceAPI
     {
         public Startup(IConfiguration configuration)
         {
+            LogManager.LoadConfiguration(string.Concat(Directory.GetCurrentDirectory(), "/nlog.config"));
             Configuration = configuration;
         }
         public IConfiguration Configuration { get; }
@@ -20,6 +23,7 @@ namespace EcommerceAPI
         {
             services.AddControllers();
             services.AddTransient<IUserMaster, UserMasterRepository>();
+            services.AddTransient<IEcomlogger, EcomLoggerRepository>();
             services.AddSwaggerGen(c =>
             {
                 c.SwaggerDoc("v1", new OpenApiInfo { Title = "EcommerceAPI", Version = "v1" });
