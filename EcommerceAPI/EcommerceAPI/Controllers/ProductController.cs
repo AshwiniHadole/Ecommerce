@@ -36,6 +36,8 @@ namespace EcommerceAPI.Controllers
             catch (Exception ex)
             {
                 result = StatusCode(500, ex.Message);
+                this.logger.LogError(string.Format(ex.Message));
+
             }
             return result;
         }
@@ -50,12 +52,16 @@ namespace EcommerceAPI.Controllers
             try
             {
                 Product product1 = new Product();
+                this.logger.LogInfo("Get all details of Product by Id.");
                 product1 = this.productRepository.GetProductById(id);
+                this.logger.LogInfo("All Products displayed");
                 result = Ok(product1);
             }
                 catch (Exception ex)
             {
                 result = StatusCode(500, ex.Message);
+                this.logger.LogError(string.Format(ex.Message));
+
             }
             return result;
         }
@@ -69,12 +75,17 @@ namespace EcommerceAPI.Controllers
             ActionResult result;
             try
             {
+                this.logger.LogInfo("Delete Product by Id.");
                 this.productRepository.DeleteProduct(Id);
+                this.logger.LogInfo("Deleted Product By Id Successfully");
                 result = new StatusCodeResult(200);
             }
-            catch (Exception)
+            catch (Exception ex)
             {
                 result = new StatusCodeResult(401);
+                this.logger.LogError(string.Format(ex.Message));
+
+
             }
             return result;
         }
@@ -87,12 +98,16 @@ namespace EcommerceAPI.Controllers
             ActionResult result;
             try
             {
+                this.logger.LogInfo("Update Product Details.");
                 this.productRepository.UpdateProduct(p);
+                this.logger.LogInfo("All Products Details updated Successfully");
                 result = Ok(p);
             }
             catch (Exception ex)
             {
                 result = StatusCode(500, ex.Message);
+                this.logger.LogError(string.Format(ex.Message));
+
             }
             return result;
         }
@@ -105,13 +120,17 @@ namespace EcommerceAPI.Controllers
             ActionResult result;
             try
             {
+                this.logger.LogInfo("Insert New Product Details.");
                 string abc;
-               abc=this.productRepository.CreateProduct(p);
+                abc=this.productRepository.CreateProduct(p);
+                this.logger.LogInfo("All Products displayed Successfully");
                 result = Ok(abc);
             }
             catch (Exception ex)
             {
                 result =StatusCode(500, ex.Message);
+                this.logger.LogError(string.Format(ex.Message));
+
             }
             return result;
         }
