@@ -44,8 +44,8 @@ namespace EcommerceAPI.Repository
             IEnumerable<Store> stores = new List<Store>();
             using (IDbConnection Conn = new SqlConnection(this._config.GetSection("ConnectionStrings").GetSection("DefaultConnection").Value))
             {
-                stores = Conn.Query<Store>(@"SELECT*FROM TblStore WHERE UserId=@UserId AND Active=1", new
-                { UserId = userid }).ToList(); 
+                stores = Conn.Query<Store>(@"SELECT StoreId,UserId,Name,TagLine,Theme,BackGroundImage,SupportsMultipleLang,StoreRoute,CreatedOn,CreatedBy,Active  FROM TblStore WHERE UserId=@UserId AND Active=1", new
+                { UserId = userid }).ToList();
 
             }
             return stores;
@@ -58,7 +58,7 @@ namespace EcommerceAPI.Repository
             Store store = new Store();
             using (IDbConnection Conn = new SqlConnection(this._config.GetSection("ConnectionStrings").GetSection("DefaultConnection").Value))
             {
-                store = Conn.Query<Store>(@"SELECT*FROM TblStore WHERE StoreId=@storeid AND Active=1", new
+                store = Conn.Query<Store>(@"SELECT StoreId,UserId,Name,TagLine,Theme,BackGroundImage,SupportsMultipleLang,StoreRoute,CreatedOn,CreatedBy,Active FROM TblStore WHERE StoreId=@storeid AND Active=1", new
                 { StoreId = storeid }).FirstOrDefault();
             }
             return store;
@@ -102,7 +102,7 @@ namespace EcommerceAPI.Repository
             Store data = new Store();
             using (IDbConnection Conn = new SqlConnection(this._config.GetSection("ConnectionStrings").GetSection("DefaultConnection").Value))
             {
-                data = Conn.Query<Store>(@"SELECT*FROM TblStore WHERE Name=@Name ", new
+                data = Conn.Query<Store>(@"SELECT StoreId,UserId,Name,TagLine,Theme,BackGroundImage,SupportsMultipleLang,StoreRoute,CreatedOn,CreatedBy,Active FROM TblStore WHERE Name=@Name ", new
                 { Name = name }).FirstOrDefault();
             }
             if (data != null)

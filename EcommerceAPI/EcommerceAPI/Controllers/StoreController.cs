@@ -2,6 +2,7 @@
 using EcommerceAPI.Repository;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Configuration;
+using System;
 using System.Collections.Generic;
 
 namespace EcommerceAPI.Controllers
@@ -10,12 +11,12 @@ namespace EcommerceAPI.Controllers
     [ApiController]
     public class StoreController : ControllerBase
     {
-        private readonly IConfiguration _config;
-        private readonly IStoreRepository _storeRepository;
-        public StoreController(IConfiguration config, IStoreRepository storeRepository)
+        private readonly IStoreRepository storeRepository;
+        protected readonly IEcomlogger logger;
+        public StoreController( IStoreRepository _storeRepository, IEcomlogger _logger)
         {
-            this._config = config;
-            this._storeRepository = storeRepository;
+            this.storeRepository = _storeRepository;
+            this.logger = _logger;
         }
         #region GetAllStore
         //Get all store by using userid.
@@ -23,9 +24,20 @@ namespace EcommerceAPI.Controllers
         public IActionResult GetAllStore(int userid)
         {
             IActionResult result;
-            IEnumerable<Store> stores = new List<Store>();
-            stores = this._storeRepository.GetAllStore(userid);
-            result = Ok(stores);
+            try
+            {
+                IEnumerable<Store> stores = new List<Store>();
+                this.logger.LogInfo("Called all store by user Id");
+                stores = this.storeRepository.GetAllStore(userid);
+                this.logger.LogInfo("Get all store by user Id");
+                result = Ok(stores);
+            }
+            catch (Exception ex)
+            {
+                result = new StatusCodeResult(500);
+                this.logger.LogError(string.Format(ex.Message));
+                return BadRequest("Internal Server Error.");
+            }
             return result;
         }
         #endregion
@@ -36,9 +48,20 @@ namespace EcommerceAPI.Controllers
         public IActionResult GetStoreById(int storeid)
         {
             IActionResult result;
-            Store obj = new Store();
-            obj = this._storeRepository.GetStoreById(storeid);
-            result = Ok(obj);
+            try
+            {
+                Store obj = new Store();
+                this.logger.LogInfo("Called store by store Id");
+                obj = this.storeRepository.GetStoreById(storeid);
+                this.logger.LogInfo("Get all store by store Id");
+                result = Ok(obj);
+            }
+            catch (Exception ex)
+            {
+                result = new StatusCodeResult(500);
+                this.logger.LogError(string.Format(ex.Message));
+                return BadRequest("Internal Server Error.");
+            }
             return result;
         }
         #endregion
@@ -49,8 +72,19 @@ namespace EcommerceAPI.Controllers
         public IActionResult DeleteStore(int Id)
         {
             IActionResult result;
-            this._storeRepository.DeleteStoreById(Id);
-            result = new StatusCodeResult(200);
+            try
+            {
+                this.logger.LogInfo("Called Delete store by Id");
+                this.storeRepository.DeleteStoreById(Id);
+                this.logger.LogInfo("Delete store by Id");
+                result = new StatusCodeResult(200);
+            }
+            catch (Exception ex)
+            {
+                result = new StatusCodeResult(500);
+                this.logger.LogError(string.Format(ex.Message));
+                return BadRequest("Internal Server Error.");
+            }
             return result;
         }
         #endregion
@@ -59,11 +93,22 @@ namespace EcommerceAPI.Controllers
         //Insert store detail in store.
         [HttpPost("AddStore")]
         public IActionResult AddStore([FromBody]Store store)
-        {           
+        {
             IActionResult result;
-            string A;
-            A= this._storeRepository.CreateStore( store);
-            result = Ok(A);
+            try
+            {
+                string A;
+                this.logger.LogInfo("Insert New store Details.");
+                A = this.storeRepository.CreateStore(store);
+                this.logger.LogInfo("New store Details Inserted successfully.");
+                result = Ok(A);
+            }
+            catch (Exception ex)
+            {
+                result = new StatusCodeResult(500);
+                this.logger.LogError(string.Format(ex.Message));
+                return BadRequest("Internal Server Error.");
+            }
             return result;
         }
         #endregion
@@ -74,8 +119,19 @@ namespace EcommerceAPI.Controllers
         public IActionResult UpdateStore([FromBody] Store store)
         {
             IActionResult result;
-            this._storeRepository.UpdateStoreById(store);
-            result = new StatusCodeResult(200);
+            try
+            {
+                this.logger.LogInfo("Update store Details.");
+                this.storeRepository.UpdateStoreById(store);
+                this.logger.LogInfo("Store detail updated successfully.");
+                result = new StatusCodeResult(200);
+            }
+            catch (Exception ex)
+            {
+                result = new StatusCodeResult(500);
+                this.logger.LogError(string.Format(ex.Message));
+                return BadRequest("Internal Server Error.");
+            }
             return result;
         }
        #endregion

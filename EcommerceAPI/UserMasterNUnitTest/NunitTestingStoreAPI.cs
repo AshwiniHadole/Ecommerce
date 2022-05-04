@@ -22,9 +22,9 @@ namespace UserMasterNUnitTest
         }
         #endregion
         #region Controller
-        private StoreController createController(IStoreRepository storeRepository)
+        private StoreController createController(IStoreRepository _storeRepository,IEcomlogger _logger)
         {
-            var controller = new StoreController(storeRepository);
+            var controller = new StoreController(_storeRepository,_logger);
             return controller;
         }
         #endregion
@@ -35,14 +35,11 @@ namespace UserMasterNUnitTest
             var configuration = this.initConfiguration();
             var serviceCollection = new ServiceCollection();
             serviceCollection.AddMemoryCache();
-
             var serviceProvider = serviceCollection.BuildServiceProvider();
             var memoryCache = serviceProvider.GetService<IMemoryCache>();
-
-            IStoreRepository StoreRepository = new StoreRepository(configuration); 
-
-            StoreController controller = this.createController(StoreRepository);
-
+            IStoreRepository StoreRepository = new StoreRepository(configuration);
+            IEcomlogger EcomLoggerRepository = new EcomLoggerRepository();
+            StoreController controller = this.createController(StoreRepository, EcomLoggerRepository);
             ActionResult get = (ActionResult)controller.GetAllStore(33);
         }
         #endregion
@@ -53,14 +50,11 @@ namespace UserMasterNUnitTest
             var configuration = this.initConfiguration();
             var serviceCollection = new ServiceCollection();
             serviceCollection.AddMemoryCache();
-
             var serviceProvider = serviceCollection.BuildServiceProvider();
             var memoryCache = serviceProvider.GetService<IMemoryCache>();
-
             IStoreRepository StoreRepository = new StoreRepository(configuration);
-
-            StoreController controller = this.createController(StoreRepository);
-
+            IEcomlogger EcomLoggerRepository = new EcomLoggerRepository();
+            StoreController controller = this.createController(StoreRepository, EcomLoggerRepository);
             ActionResult get = (ActionResult)controller.GetStoreById(3);
         }
         #endregion
@@ -71,14 +65,11 @@ namespace UserMasterNUnitTest
             var configuration = this.initConfiguration();
             var serviceCollection = new ServiceCollection();
             serviceCollection.AddMemoryCache();
-
             var serviceProvider = serviceCollection.BuildServiceProvider();
             var memoryCache = serviceProvider.GetService<IMemoryCache>();
-
             IStoreRepository StoreRepository = new StoreRepository(configuration);
-
-            StoreController controller = this.createController(StoreRepository);
-
+            IEcomlogger EcomLoggerRepository = new EcomLoggerRepository();
+            StoreController controller = this.createController(StoreRepository, EcomLoggerRepository);
             ActionResult delete = (ActionResult)controller.DeleteStore(3);
         }
         #endregion
@@ -103,14 +94,11 @@ namespace UserMasterNUnitTest
             var configuration = this.initConfiguration();
             var serviceCollection = new ServiceCollection();
             serviceCollection.AddMemoryCache();
-
             var serviceProvider = serviceCollection.BuildServiceProvider();
             var memoryCache = serviceProvider.GetService<IMemoryCache>();
-
             IStoreRepository StoreRepository = new StoreRepository(configuration);
-
-            StoreController controller = this.createController(StoreRepository);
-            
+            IEcomlogger EcomLoggerRepository = new EcomLoggerRepository();
+            StoreController controller = this.createController(StoreRepository, EcomLoggerRepository);
             ActionResult add = (ActionResult)controller.AddStore(store);
         }
         #endregion
@@ -135,14 +123,11 @@ namespace UserMasterNUnitTest
             var configuration = this.initConfiguration();
             var serviceCollection = new ServiceCollection();
             serviceCollection.AddMemoryCache();
-
             var serviceProvider = serviceCollection.BuildServiceProvider();
             var memoryCache = serviceProvider.GetService<IMemoryCache>();
-
             IStoreRepository StoreRepository = new StoreRepository(configuration);
-
-            StoreController controller = this.createController(StoreRepository);
-
+            IEcomlogger EcomLoggerRepository = new EcomLoggerRepository();
+            StoreController controller = this.createController(StoreRepository, EcomLoggerRepository);
             ActionResult update = (ActionResult)controller.UpdateStore(store);
         }
         #endregion
