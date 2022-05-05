@@ -24,6 +24,7 @@ namespace EcommerceAPI
             services.AddControllers();
             services.AddTransient<IUserMaster, UserMasterRepository>();
             services.AddTransient<IEcomlogger, EcomLoggerRepository>();
+            services.AddTransient<ICategory, CategoryRepository>();
             services.AddSwaggerGen(c =>
             {
                 c.SwaggerDoc("v1", new OpenApiInfo { Title = "EcommerceAPI", Version = "v1" });
