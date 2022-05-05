@@ -2,17 +2,21 @@
 using EcommerceAPI.Model;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Configuration;
-
+using System;
 using System.Collections.Generic;
 using System.Data;
 using System.Data.SqlClient;
+using System.IO;
 using System.Linq;
+using System.Net.Http.Headers;
 
 namespace EcommerceAPI.Repository
 {
     public class ProductRepository : IProductRepository
     {
         protected readonly IConfiguration _config;
+        private object webHostEnvironment;
+
         public ProductRepository(IConfiguration config)
         {
             this._config = config;
@@ -86,7 +90,7 @@ namespace EcommerceAPI.Repository
                 }
                 else
                 {
-                    conn.Execute(@"INSERT INTO Product Values (@StoreId,@CategoryId,@Name,@Description,@ShowPrice,@Price,@FavNote,@CreatedOn,@CreatedBy,@Active)", new
+                    conn.Execute(@"INSERT INTO Product Values (@StoreId,@CategoryId,@Name,@Description,@ShowPrice,@Price,@FavNote,@CreatedOn,@CreatedBy,@Active,@ImagePath)", new
                     {
                         StoreId = p.StoreId,
                         CategoryId = p.CategoryId,
@@ -98,14 +102,15 @@ namespace EcommerceAPI.Repository
                         CreatedOn = System.DateTime.Now,
                         CreatedBy = p.CreatedBy,
                         Active = p.Active,
+                        ImagePath = p.ImagePath
                     });
                     abc = "Data Inserted Successfully";
                 }
             }
             return abc;
-        }
 
-      
+        }
+        
     }
 }
 
