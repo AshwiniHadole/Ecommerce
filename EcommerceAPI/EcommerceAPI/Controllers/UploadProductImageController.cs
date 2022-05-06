@@ -55,7 +55,7 @@ namespace EcommerceAPI.Controllers
                         file.CopyTo(stream);
                     }
                     string abc;
-                    p.ImagePath = fullPath;
+                    p.ImagePath = dbPath;
                     abc = this.productRepository.CreateProduct(p);
                 }
                 return Ok("All the files are successfully uploaded.");
