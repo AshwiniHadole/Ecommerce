@@ -66,7 +66,10 @@ namespace UserMasterNUnitTest
 
             UserMasterController controller = this.createController(UserMasterRepository, EcomLoggerRepository);
 
-            ActionResult blomodel = (ActionResult)controller.InsertNewUser(usermaster);
+            ActionResult result = (ActionResult)controller.InsertNewUser(usermaster);
+            Assert.IsNotNull(result);
+            Assert.IsTrue(usermaster.UserId > 0);
+            Assert.IsNotNull(usermaster.CreatedOn);
         }
 
         [Test]
@@ -84,7 +87,10 @@ namespace UserMasterNUnitTest
 
             UserMasterController controller = this.createController(UserMasterRepository, EcomLoggerRepository);
 
-            ActionResult blomodel = (ActionResult)controller.GetUserByUserId(36);
+            ActionResult result = (ActionResult)controller.GetUserByUserId(3);
+            Assert.IsNotNull(result);
+            Assert.AreEqual("GetCategoryById executed successfully.",((EcommerceAPI.Model.ResponseModel)((Microsoft.AspNetCore.Mvc.ObjectResult)result).Value).Message);
+            Assert.AreEqual("OK",((EcommerceAPI.Model.ResponseModel)((Microsoft.AspNetCore.Mvc.ObjectResult)result).Value).statusCode);
         }
         #endregion
     }
