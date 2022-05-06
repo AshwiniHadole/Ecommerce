@@ -1,9 +1,9 @@
 ﻿using EcommerceAPI.Model;
 using EcommerceAPI.Repository;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.Extensions.Configuration;
 using System;
 using System.Collections.Generic;
+using System.Net;
 
 namespace EcommerceAPI.Controllers
 {
@@ -24,20 +24,24 @@ namespace EcommerceAPI.Controllers
         [HttpGet("GetAllProduct")]
         public IActionResult GetAll(int StoreId)
         {
+            ResponseModel model = new ResponseModel();
             ActionResult result;
             try
             {
-                this.logger.LogInfo("Get all details by StoreId");
                 IEnumerable<Product> product1 = new List<Product>();
+                this.logger.LogInfo("Get all details by StoreId");
                 product1 = this.productRepository.GetAllProduct(StoreId);
+                model.Data = product1;
+                model.statusCode = HttpStatusCode.OK.ToString();
+                model.Message = "Get all data successfully";
                 this.logger.LogInfo("All Products displayed");
-                result = Ok(product1);
+                result = Ok(model);
             }
             catch (Exception ex)
             {
-                result = StatusCode(500, ex.Message);
-                this.logger.LogError(string.Format(ex.Message));
-
+                model.Message = HttpStatusCode.OK.ToString();
+                this.logger.LogInfo(string.Format(ex.Message));
+                return BadRequest("Internal Server Error.");
             }
             return result;
         }
@@ -47,21 +51,26 @@ namespace EcommerceAPI.Controllers
         [HttpGet("GetProductById")]
         public IActionResult Get(int id)
         {
-            ActionResult result;
+            ResponseModel model = new ResponseModel();
 
+            ActionResult result;
             try
             {
                 Product product1 = new Product();
                 this.logger.LogInfo("Get all details of Product by Id.");
                 product1 = this.productRepository.GetProductById(id);
+                model.Data = product1;
+                model.statusCode = HttpStatusCode.OK.ToString();
+                model.Message = "Get all details of Product by Id";
                 this.logger.LogInfo("All Products displayed");
-                result = Ok(product1);
+                result = Ok(model);
             }
                 catch (Exception ex)
             {
-                result = StatusCode(500, ex.Message);
+                model.statusCode = HttpStatusCode.InternalServerError.ToString();
+                result = new StatusCodeResult(500);
                 this.logger.LogError(string.Format(ex.Message));
-
+                model.Message = "InternalServerError";
             }
             return result;
         }
@@ -72,16 +81,20 @@ namespace EcommerceAPI.Controllers
         [Route("Delete")]
         public IActionResult Delete(int Id)
         {
+            ResponseModel model = new ResponseModel();
             ActionResult result;
             try
             {
                 this.logger.LogInfo("Delete Product by Id.");
                 this.productRepository.DeleteProduct(Id);
+                model.statusCode = HttpStatusCode.OK.ToString();
+                model.Message = "Product deleted successfully";
                 this.logger.LogInfo("Deleted Product By Id Successfully");
-                result = new StatusCodeResult(200);
+                result = Ok(model);
             }
             catch (Exception ex)
             {
+
                 result = new StatusCodeResult(401);
                 this.logger.LogError(string.Format(ex.Message));
 
@@ -95,13 +108,16 @@ namespace EcommerceAPI.Controllers
         [HttpPut("UpdateProduct")]
         public IActionResult Put([FromBody] Product p)
         {
+            ResponseModel model = new ResponseModel();
             ActionResult result;
             try
             {
                 this.logger.LogInfo("Update Product Details.");
                 this.productRepository.UpdateProduct(p);
+                model.statusCode = HttpStatusCode.OK.ToString();
+                model.Message = "Update Product Details Successfully";
                 this.logger.LogInfo("All Products Details updated Successfully");
-                result = Ok(p);
+                result = Ok(model);
             }
             catch (Exception ex)
             {
@@ -117,20 +133,22 @@ namespace EcommerceAPI.Controllers
         [HttpPost("CreateProduct")]
         public IActionResult Post([FromBody] Product p)
         {
+            ResponseModel model = new ResponseModel(); 
             ActionResult result;
             try
             {
                 this.logger.LogInfo("Insert New Product Details.");
                 string abc;
                 abc=this.productRepository.CreateProduct(p);
+                model.statusCode = HttpStatusCode.OK.ToString();
+                model.Message = "Insert New Product Details.";
                 this.logger.LogInfo("All Products displayed Successfully");
-                result = Ok(abc);
+                result = Ok(model);
             }
             catch (Exception ex)
             {
                 result =StatusCode(500, ex.Message);
                 this.logger.LogError(string.Format(ex.Message));
-
             }
             return result;
         }

@@ -15,7 +15,7 @@ namespace EcommerceAPI.Repository
     public class ProductRepository : IProductRepository
     {
         protected readonly IConfiguration _config;
-        private object webHostEnvironment;
+       
 
         public ProductRepository(IConfiguration config)
         {
@@ -32,7 +32,7 @@ namespace EcommerceAPI.Repository
         {
             using IDbConnection conn = new SqlConnection(this._config.GetSection("ConnectionStrings").GetSection("DefaultConnection").Value);
             {
-                string sQuery = @"Select StoreId,CategoryId,Name,Description,ShowPrice,Price,FavNote,Active FROM Product Where StoreId=@StoreId";
+                string sQuery = @"Select Id,StoreId,CategoryId,Name,Description,ShowPrice,Price,FavNote,createdBy,Active,ImagePath FROM Product Where StoreId=@StoreId";
                 return (IEnumerable<Product>)conn.Query<Product>(sQuery, new { StoreId = StoreId1 });
             }
         }
