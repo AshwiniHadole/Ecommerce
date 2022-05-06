@@ -1,9 +1,9 @@
 ﻿using EcommerceAPI.Model;
 using EcommerceAPI.Repository;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.Extensions.Configuration;
 using System;
 using System.Collections.Generic;
+using System.Net;
 
 namespace EcommerceAPI.Controllers
 {
@@ -23,23 +23,29 @@ namespace EcommerceAPI.Controllers
         [HttpGet("GetAllStore")]
         public IActionResult GetAllStore(int userid)
         {
+            ResponseModel model = new ResponseModel();
             IActionResult result;
             try
             {
                 IEnumerable<Store> stores = new List<Store>();
                 this.logger.LogInfo("Called all store by user Id");
                 stores = this.storeRepository.GetAllStore(userid);
+                model.Data = stores;
+                model.ResponseCode = HttpStatusCode.OK.ToString();
+                model.ResponseMessage = "Get all store successfully";
                 this.logger.LogInfo("Get all store by user Id");
-                result = Ok(stores);
+                result = Ok(model);
             }
             catch (Exception ex)
             {
+                model.ResponseCode = HttpStatusCode.InternalServerError.ToString();
+                model.ResponseMessage = "InternalServerError";
                 result = new StatusCodeResult(500);
                 this.logger.LogError(string.Format(ex.Message));
                 return BadRequest("Internal Server Error.");
             }
             return result;
-        }
+        }     
         #endregion
 
         #region GetStore
@@ -47,17 +53,23 @@ namespace EcommerceAPI.Controllers
         [HttpGet("GetStoreById")]
         public IActionResult GetStoreById(int storeid)
         {
+            ResponseModel model = new ResponseModel();
             IActionResult result;
             try
             {
                 Store obj = new Store();
                 this.logger.LogInfo("Called store by store Id");
-                obj = this.storeRepository.GetStoreById(storeid);
+                obj = this.storeRepository.GetStoreById(5);
+                model.Data = obj;
+                model.ResponseCode = HttpStatusCode.OK.ToString();
+                model.ResponseMessage = "Get store by Id successfully";
                 this.logger.LogInfo("Get all store by store Id");
-                result = Ok(obj);
+                result = Ok(model);
             }
             catch (Exception ex)
             {
+                model.ResponseCode = HttpStatusCode.InternalServerError.ToString();
+                model.ResponseMessage = "InternalServerError";
                 result = new StatusCodeResult(500);
                 this.logger.LogError(string.Format(ex.Message));
                 return BadRequest("Internal Server Error.");
@@ -71,16 +83,21 @@ namespace EcommerceAPI.Controllers
         [HttpDelete("DeleteStore")]
         public IActionResult DeleteStore(int Id)
         {
+            ResponseModel model = new ResponseModel();
             IActionResult result;
             try
             {
                 this.logger.LogInfo("Called Delete store by Id");
                 this.storeRepository.DeleteStoreById(Id);
+                model.ResponseCode = HttpStatusCode.OK.ToString();
+                model.ResponseMessage = "Delete store successfully";
                 this.logger.LogInfo("Delete store by Id");
-                result = new StatusCodeResult(200);
+                result = Ok(model);
             }
             catch (Exception ex)
             {
+                model.ResponseCode = HttpStatusCode.InternalServerError.ToString();
+                model.ResponseMessage = "InternalServerError";
                 result = new StatusCodeResult(500);
                 this.logger.LogError(string.Format(ex.Message));
                 return BadRequest("Internal Server Error.");
@@ -94,17 +111,23 @@ namespace EcommerceAPI.Controllers
         [HttpPost("AddStore")]
         public IActionResult AddStore([FromBody]Store store)
         {
+            ResponseModel model = new ResponseModel();
             IActionResult result;
             try
             {
                 string A;
                 this.logger.LogInfo("Insert New store Details.");
                 A = this.storeRepository.CreateStore(store);
+                model.Data = A;
+                model.ResponseCode = HttpStatusCode.OK.ToString();
+                model.ResponseMessage = "Store Data inserted successfully";
                 this.logger.LogInfo("New store Details Inserted successfully.");
-                result = Ok(A);
+                result = Ok(model);
             }
             catch (Exception ex)
             {
+                model.ResponseCode = HttpStatusCode.InternalServerError.ToString();
+                model.ResponseMessage = "InternalServerError";
                 result = new StatusCodeResult(500);
                 this.logger.LogError(string.Format(ex.Message));
                 return BadRequest("Internal Server Error.");
@@ -118,16 +141,21 @@ namespace EcommerceAPI.Controllers
         [HttpPut("UpdateStore")]
         public IActionResult UpdateStore([FromBody] Store store)
         {
+            ResponseModel model = new ResponseModel();
             IActionResult result;
             try
             {
                 this.logger.LogInfo("Update store Details.");
                 this.storeRepository.UpdateStoreById(store);
+                model.ResponseCode = HttpStatusCode.OK.ToString();
+                model.ResponseMessage = "Store detail updated successfully";
                 this.logger.LogInfo("Store detail updated successfully.");
-                result = new StatusCodeResult(200);
+                result = Ok(model);
             }
             catch (Exception ex)
             {
+                model.ResponseCode = HttpStatusCode.InternalServerError.ToString();
+                model.ResponseMessage = "InternalServerError";
                 result = new StatusCodeResult(500);
                 this.logger.LogError(string.Format(ex.Message));
                 return BadRequest("Internal Server Error.");

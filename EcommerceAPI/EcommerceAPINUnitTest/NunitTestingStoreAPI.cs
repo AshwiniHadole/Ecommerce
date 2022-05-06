@@ -44,7 +44,10 @@ namespace UserMasterNUnitTest
 
             StoreController controller = this.createController(StoreRepository, EcomLoggerRepository);
 
-            ActionResult get = (ActionResult)controller.GetAllStore(33);
+            ActionResult result = (ActionResult)controller.GetAllStore(1001);
+            Assert.IsNotNull(result);
+            Assert.AreEqual(((Microsoft.AspNetCore.Mvc.ObjectResult)result).StatusCode ,200);
+            Assert.AreEqual("Get all store successfully", ((EcommerceAPI.Model.ResponseModel)((Microsoft.AspNetCore.Mvc.ObjectResult)result).Value).ResponseMessage);
         }
         #endregion
         #region Testcases
@@ -63,7 +66,11 @@ namespace UserMasterNUnitTest
 
             StoreController controller = this.createController(StoreRepository, EcomLoggerRepository);
 
-            ActionResult get = (ActionResult)controller.GetStoreById(3);
+            ActionResult result = (ActionResult)controller.GetStoreById(3);
+       
+            Assert.IsNotNull(result);
+            Assert.AreEqual(((Microsoft.AspNetCore.Mvc.ObjectResult)result).StatusCode, 200);
+            Assert.AreEqual("Get store by Id successfully",((EcommerceAPI.Model.ResponseModel)((Microsoft.AspNetCore.Mvc.ObjectResult)result).Value).ResponseMessage);
         }
         #endregion
         #region Testcases
@@ -82,7 +89,11 @@ namespace UserMasterNUnitTest
 
             StoreController controller = this.createController(StoreRepository, EcomLoggerRepository);
 
-            ActionResult delete = (ActionResult)controller.DeleteStore(3);
+            ActionResult result = (ActionResult)controller.DeleteStore(3);
+            Assert.IsNotNull(result);
+            Assert.AreEqual(((Microsoft.AspNetCore.Mvc.ObjectResult)result).StatusCode, 200);
+            Assert.AreEqual("Delete store successfully", ((EcommerceAPI.Model.ResponseModel)((Microsoft.AspNetCore.Mvc.ObjectResult)result).Value).ResponseMessage);
+
         }
         #endregion
         #region Testcases
@@ -115,7 +126,10 @@ namespace UserMasterNUnitTest
 
             StoreController controller = this.createController(StoreRepository, EcomLoggerRepository);
             
-            ActionResult add = (ActionResult)controller.AddStore(store);
+            ActionResult result = (ActionResult)controller.AddStore(store);
+            Assert.IsNotNull(result);
+            Assert.AreEqual(((Microsoft.AspNetCore.Mvc.ObjectResult)result).StatusCode, 200);
+            Assert.AreEqual("Store Data inserted successfully", ((EcommerceAPI.Model.ResponseModel)((Microsoft.AspNetCore.Mvc.ObjectResult)result).Value).ResponseMessage);
         }
         #endregion
         #region Testcases
@@ -148,7 +162,10 @@ namespace UserMasterNUnitTest
 
             StoreController controller = this.createController(StoreRepository, EcomLoggerRepository);
 
-            ActionResult update = (ActionResult)controller.UpdateStore(store);
+            ActionResult result = (ActionResult)controller.UpdateStore(store);
+            Assert.IsNotNull(result);
+            Assert.AreEqual(((Microsoft.AspNetCore.Mvc.ObjectResult)result).StatusCode, 200);
+            Assert.AreEqual("Store detail updated successfully", ((EcommerceAPI.Model.ResponseModel)((Microsoft.AspNetCore.Mvc.ObjectResult)result).Value).ResponseMessage);
         }
         #endregion
     }
