@@ -5,6 +5,7 @@ using Microsoft.Extensions.Configuration;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Net;
 using System.Threading.Tasks;
 
 namespace EcommerceAPI.Controllers
@@ -30,16 +31,20 @@ namespace EcommerceAPI.Controllers
         public IActionResult InsertNewUser(UserMaster add)
         {
             IActionResult result;
+            ResponseModel res = new ResponseModel();
             try
             {
                 this.logger.LogInfo("Insert New User Details.");
                 string Newuserdata=this.user.InsertNewUser(add);
+                res.Data = Newuserdata;
+                res.Message = "GetCategoryById executed successfully.";
+                res.statusCode = HttpStatusCode.OK.ToString();
                 this.logger.LogInfo("New User Details Inserted.");
-                result = Ok(Newuserdata);
+                result = Ok(res);
             }
             catch (Exception ex)
             {
-                result = new StatusCodeResult(500);
+                res.statusCode = HttpStatusCode.OK.ToString();
                 this.logger.LogError(string.Format(ex.Message));
                 return BadRequest("Internal Server Error.");
             }
@@ -52,16 +57,20 @@ namespace EcommerceAPI.Controllers
         public IActionResult GetUserByUserId(int Id)
         {
             IActionResult result;
+            ResponseModel res = new ResponseModel();
             try
             {
                 this.logger.LogInfo("Get all details by UserId");
                 IEnumerable<UserMaster> obj = this.user.GetUserByUserId(Id);
+                res.Data = obj;
+                res.Message = "GetCategoryById executed successfully.";
+                res.statusCode = HttpStatusCode.OK.ToString();
                 this.logger.LogInfo("All data displayed");
-                result = Ok(obj);
+                result = Ok(res);
             }
             catch (Exception ex)
             {
-                result = new StatusCodeResult(500);
+                res.statusCode = HttpStatusCode.OK.ToString();
                 this.logger.LogError(string.Format(ex.Message));
                 return BadRequest("Internal Server Error.");
             }

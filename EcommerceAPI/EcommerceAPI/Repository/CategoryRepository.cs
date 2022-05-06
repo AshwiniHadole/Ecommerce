@@ -19,26 +19,26 @@ namespace EcommerceAPI.Repository
         }
         public IEnumerable<Category> GetCategoryById(int Id)
         {
-            IEnumerable<Category> ById;
+            IEnumerable<Category> category;
             using (IDbConnection con = new SqlConnection(this.configuration.GetSection("ConnectionStrings").GetSection("DefaultConnection").Value))
-                ById = con.Query<Category>("SELECT Id,StoreId,Name,CreatedOn,CreatedBy,Active FROM TblInventoryCategory WHERE Id=@Id AND Active=1", new
+                category = con.Query<Category>("SELECT Id,StoreId,Name,CreatedOn,CreatedBy,Active FROM TblInventoryCategory WHERE Id=@Id AND Active=1", new
                 {
                     Id=Id
                 }
                     );
-            return ById;
+            return category;
         }
 
         public IEnumerable<Category> GetCategoryByStoreId(int StoreId)
         {
-            IEnumerable<Category> ByStoreId;
+            IEnumerable<Category> _category;
             using (IDbConnection con = new SqlConnection(this.configuration.GetSection("ConnectionStrings").GetSection("DefaultConnection").Value))
-                ByStoreId = con.Query<Category>("SELECT Id,StoreId,Name,CreatedOn,CreatedBy,Active FROM TblInventoryCategory WHERE StoreId=@StoreId AND Active=1", new
+                _category = con.Query<Category>("SELECT Id,StoreId,Name,CreatedOn,CreatedBy,Active FROM TblInventoryCategory WHERE StoreId=@StoreId AND Active=1", new
                 {
                     StoreId = StoreId
                 }
                     );
-            return ByStoreId;
+            return _category;
         }
 
         public void DeleteCategoryById(int Id)
