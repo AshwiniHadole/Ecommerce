@@ -31,15 +31,15 @@ namespace EcommerceAPI.Controllers
                 this.logger.LogInfo("Called all store by user Id");
                 stores = this.storeRepository.GetAllStore(userid);
                 model.Data = stores;
-                model.ResponseCode = HttpStatusCode.OK.ToString();
-                model.ResponseMessage = "Get all store successfully";
+                model.statusCode = HttpStatusCode.OK.ToString();
+                model.Message = "Get all store successfully";
                 this.logger.LogInfo("Get all store by user Id");
                 result = Ok(model);
             }
             catch (Exception ex)
             {
-                model.ResponseCode = HttpStatusCode.InternalServerError.ToString();
-                model.ResponseMessage = "InternalServerError";
+                model.statusCode = HttpStatusCode.InternalServerError.ToString();
+                model.Message = "InternalServerError";
                 result = new StatusCodeResult(500);
                 this.logger.LogError(string.Format(ex.Message));
                 return BadRequest("Internal Server Error.");
@@ -61,15 +61,15 @@ namespace EcommerceAPI.Controllers
                 this.logger.LogInfo("Called store by store Id");
                 obj = this.storeRepository.GetStoreById(5);
                 model.Data = obj;
-                model.ResponseCode = HttpStatusCode.OK.ToString();
-                model.ResponseMessage = "Get store by Id successfully";
+                model.statusCode = HttpStatusCode.OK.ToString();
+                model.Message = "Get store by Id successfully";
                 this.logger.LogInfo("Get all store by store Id");
                 result = Ok(model);
             }
             catch (Exception ex)
             {
-                model.ResponseCode = HttpStatusCode.InternalServerError.ToString();
-                model.ResponseMessage = "InternalServerError";
+                model.statusCode = HttpStatusCode.InternalServerError.ToString();
+                model.Message = "InternalServerError";
                 result = new StatusCodeResult(500);
                 this.logger.LogError(string.Format(ex.Message));
                 return BadRequest("Internal Server Error.");
@@ -89,15 +89,15 @@ namespace EcommerceAPI.Controllers
             {
                 this.logger.LogInfo("Called Delete store by Id");
                 this.storeRepository.DeleteStoreById(Id);
-                model.ResponseCode = HttpStatusCode.OK.ToString();
-                model.ResponseMessage = "Delete store successfully";
+                model.statusCode = HttpStatusCode.OK.ToString();
+                model.Message = "Delete store successfully";
                 this.logger.LogInfo("Delete store by Id");
                 result = Ok(model);
             }
             catch (Exception ex)
             {
-                model.ResponseCode = HttpStatusCode.InternalServerError.ToString();
-                model.ResponseMessage = "InternalServerError";
+                model.statusCode = HttpStatusCode.InternalServerError.ToString();
+                model.Message = "InternalServerError";
                 result = new StatusCodeResult(500);
                 this.logger.LogError(string.Format(ex.Message));
                 return BadRequest("Internal Server Error.");
@@ -119,15 +119,15 @@ namespace EcommerceAPI.Controllers
                 this.logger.LogInfo("Insert New store Details.");
                 A = this.storeRepository.CreateStore(store);
                 model.Data = A;
-                model.ResponseCode = HttpStatusCode.OK.ToString();
-                model.ResponseMessage = "Store Data inserted successfully";
+                model.statusCode = HttpStatusCode.OK.ToString();
+                model.Message = "Store Data inserted successfully";
                 this.logger.LogInfo("New store Details Inserted successfully.");
                 result = Ok(model);
             }
             catch (Exception ex)
             {
-                model.ResponseCode = HttpStatusCode.InternalServerError.ToString();
-                model.ResponseMessage = "InternalServerError";
+                model.statusCode = HttpStatusCode.InternalServerError.ToString();
+                model.Message = "InternalServerError";
                 result = new StatusCodeResult(500);
                 this.logger.LogError(string.Format(ex.Message));
                 return BadRequest("Internal Server Error.");
@@ -147,15 +147,15 @@ namespace EcommerceAPI.Controllers
             {
                 this.logger.LogInfo("Update store Details.");
                 this.storeRepository.UpdateStoreById(store);
-                model.ResponseCode = HttpStatusCode.OK.ToString();
-                model.ResponseMessage = "Store detail updated successfully";
+                model.statusCode = HttpStatusCode.OK.ToString();
+                model.Message = "Store detail updated successfully";
                 this.logger.LogInfo("Store detail updated successfully.");
                 result = Ok(model);
             }
             catch (Exception ex)
             {
-                model.ResponseCode = HttpStatusCode.InternalServerError.ToString();
-                model.ResponseMessage = "InternalServerError";
+                model.statusCode = HttpStatusCode.InternalServerError.ToString();
+                model.Message = "InternalServerError";
                 result = new StatusCodeResult(500);
                 this.logger.LogError(string.Format(ex.Message));
                 return BadRequest("Internal Server Error.");

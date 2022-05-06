@@ -70,7 +70,7 @@ namespace UserMasterNUnitTest
        
             Assert.IsNotNull(result);
             Assert.AreEqual(((Microsoft.AspNetCore.Mvc.ObjectResult)result).StatusCode, 200);
-            Assert.AreEqual("Get store by Id successfully",((EcommerceAPI.Model.ResponseModel)((Microsoft.AspNetCore.Mvc.ObjectResult)result).Value).ResponseMessage);
+            Assert.AreEqual("Get store by Id successfully",((EcommerceAPI.Model.ResponseModel)((Microsoft.AspNetCore.Mvc.ObjectResult)result).Value).Message);
         }
         #endregion
         #region Testcases
@@ -92,7 +92,7 @@ namespace UserMasterNUnitTest
             ActionResult result = (ActionResult)controller.DeleteStore(3);
             Assert.IsNotNull(result);
             Assert.AreEqual(((Microsoft.AspNetCore.Mvc.ObjectResult)result).StatusCode, 200);
-            Assert.AreEqual("Delete store successfully", ((EcommerceAPI.Model.ResponseModel)((Microsoft.AspNetCore.Mvc.ObjectResult)result).Value).ResponseMessage);
+            Assert.AreEqual("Delete store successfully", ((EcommerceAPI.Model.ResponseModel)((Microsoft.AspNetCore.Mvc.ObjectResult)result).Value).Message);
 
         }
         #endregion
@@ -129,7 +129,7 @@ namespace UserMasterNUnitTest
             ActionResult result = (ActionResult)controller.AddStore(store);
             Assert.IsNotNull(result);
             Assert.AreEqual(((Microsoft.AspNetCore.Mvc.ObjectResult)result).StatusCode, 200);
-            Assert.AreEqual("Store Data inserted successfully", ((EcommerceAPI.Model.ResponseModel)((Microsoft.AspNetCore.Mvc.ObjectResult)result).Value).ResponseMessage);
+            Assert.AreEqual("Store Data inserted successfully", ((EcommerceAPI.Model.ResponseModel)((Microsoft.AspNetCore.Mvc.ObjectResult)result).Value).Message);
         }
         #endregion
         #region Testcases
@@ -165,7 +165,7 @@ namespace UserMasterNUnitTest
             ActionResult result = (ActionResult)controller.UpdateStore(store);
             Assert.IsNotNull(result);
             Assert.AreEqual(((Microsoft.AspNetCore.Mvc.ObjectResult)result).StatusCode, 200);
-            Assert.AreEqual("Store detail updated successfully", ((EcommerceAPI.Model.ResponseModel)((Microsoft.AspNetCore.Mvc.ObjectResult)result).Value).ResponseMessage);
+            Assert.AreEqual("Store detail updated successfully", ((EcommerceAPI.Model.ResponseModel)((Microsoft.AspNetCore.Mvc.ObjectResult)result).Value).Message);
         }
         #endregion
     }
