@@ -21,6 +21,9 @@ namespace EcommerceAPI
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
+            //Enable CORS
+            services.AddCors();
+
             services.AddControllers();
             services.AddTransient<IUserMaster, UserMasterRepository>();
             services.AddTransient<IEcomlogger, EcomLoggerRepository>();
@@ -41,6 +44,13 @@ namespace EcommerceAPI
                 app.UseSwagger();
                 app.UseSwaggerUI(c => c.SwaggerEndpoint("/swagger/v1/swagger.json", "EcommerceAPI v1"));
             }
+            // global cors policy
+            app.UseCors(x => x
+                .AllowAnyMethod()
+                .AllowAnyHeader()
+                .SetIsOriginAllowed(origin => true) // allow any origin
+                .AllowCredentials()); // allow credentials
+
             app.UseHttpsRedirection();
             app.UseRouting();
             app.UseAuthorization();

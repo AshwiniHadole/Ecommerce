@@ -21,6 +21,29 @@ namespace EcommerceAPI.Controllers
             this.logger = _logger;
         }
 
+        [HttpGet("GetAllCategory")]
+        public IActionResult GetAllCategory()
+        {
+            IActionResult result;
+            ResponseModel res = new ResponseModel();
+            try
+            {
+                this.logger.LogInfo("Get All Categories.");
+                IEnumerable<Category> newcategory = this.category.GetAllCategory();
+                res.Data = newcategory;
+                res.Message = "GetAllCategory executed successfully.";
+                res.statusCode = HttpStatusCode.OK.ToString();
+                this.logger.LogInfo("All Categories Displayed.");
+                result = Ok(res);
+            }
+            catch (Exception ex)
+            {
+                res.statusCode = HttpStatusCode.BadRequest.ToString();
+                this.logger.LogInfo(string.Format(ex.Message));
+                return BadRequest("Internal Server Error");
+            }
+            return result;
+        }
         [HttpGet("GetCategoryById")]
         public IActionResult GetCategoryById(int Id)
         {

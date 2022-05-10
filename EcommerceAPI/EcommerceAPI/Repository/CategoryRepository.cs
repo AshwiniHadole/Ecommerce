@@ -17,6 +17,13 @@ namespace EcommerceAPI.Repository
         {
             this.configuration = _configuration;
         }
+        public IEnumerable<Category> GetAllCategory()
+        {
+            IEnumerable<Category> newcategory;
+            using (IDbConnection con = new SqlConnection(this.configuration.GetSection("ConnectionStrings").GetSection("DefaultConnection").Value))
+                newcategory = con.Query<Category>("SELECT Id,StoreId,Name,CreatedOn,CreatedBy,Active FROM TblInventoryCategory WHERE Active=1");
+            return newcategory;
+        }
         public IEnumerable<Category> GetCategoryById(int Id)
         {
             IEnumerable<Category> category;

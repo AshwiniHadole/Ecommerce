@@ -8,6 +8,7 @@ namespace EcommerceAPI.Repository
 {
     public interface ICategory
     {
+        IEnumerable<Category> GetAllCategory();
         IEnumerable<Category> GetCategoryById(int Id);
         IEnumerable<Category> GetCategoryByStoreId(int StoreId);
         void DeleteCategoryById(int Id);

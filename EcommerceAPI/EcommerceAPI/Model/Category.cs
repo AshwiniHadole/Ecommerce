@@ -10,7 +10,7 @@ namespace EcommerceAPI.Model
     {
         public long Id { get; set; }
         [Required]
-        public string StoreId { get; set; }
+        public long StoreId { get; set; }
         [Required]
         [StringLength(20, MinimumLength = 4)]
         public string Name { get; set; }

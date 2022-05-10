@@ -33,6 +33,28 @@ namespace EcommerceAPINUnitTest
 
         #region
         [Test]
+        public void GetAllCategory()
+        {
+            var configuration = this.initConfiguration();
+            var serviceCollection = new ServiceCollection();
+            serviceCollection.AddMemoryCache();
+
+            var serviceProvider = serviceCollection.BuildServiceProvider();
+            var memoryCache = serviceProvider.GetService<IMemoryCache>();
+
+            ICategory InventoryCategoryRepository = new CategoryRepository(configuration);
+            IEcomlogger EcomLoggerRepository = new EcomLoggerRepository();
+
+            CategoryController controller = this.createController(InventoryCategoryRepository, EcomLoggerRepository);
+
+            ActionResult result = (ActionResult)controller.GetAllCategory(); 
+            
+            Assert.IsNotNull(result);
+            Assert.AreEqual(((Microsoft.AspNetCore.Mvc.ObjectResult)result).StatusCode, 200);
+            Assert.AreEqual("GetAllCategory executed successfully.", ((EcommerceAPI.Model.ResponseModel)((Microsoft.AspNetCore.Mvc.ObjectResult)result).Value).Message);
+        }
+
+        [Test]
         public void GetCategoryById()
         {
             var configuration = this.initConfiguration();
@@ -47,8 +69,8 @@ namespace EcommerceAPINUnitTest
 
             CategoryController controller = this.createController(InventoryCategoryRepository, EcomLoggerRepository);
 
-            ActionResult result = (ActionResult)controller.GetCategoryById(3); 
-            
+            ActionResult result = (ActionResult)controller.GetCategoryById(3);
+
             Assert.IsNotNull(result);
             Assert.AreEqual(((Microsoft.AspNetCore.Mvc.ObjectResult)result).StatusCode, 200);
             Assert.AreEqual("GetCategoryById executed successfully.", ((EcommerceAPI.Model.ResponseModel)((Microsoft.AspNetCore.Mvc.ObjectResult)result).Value).Message);
@@ -103,7 +125,7 @@ namespace EcommerceAPINUnitTest
             Category inventorycategory = new Category()
             {
                 Id = 21,
-                StoreId = "1044",
+                StoreId =1044,
                 Name = "Snacks",
                 CreatedOn = DateTime.Now,
                 CreatedBy = "Pankaj",
@@ -133,7 +155,7 @@ namespace EcommerceAPINUnitTest
             Category inventorycategory = new Category()
             {
                 Id = 25,
-                StoreId = "1045",
+                StoreId = 1045,
                 Name = "Furniture",
                 CreatedOn = DateTime.Now,
                 CreatedBy = "Arohi",
