@@ -47,7 +47,7 @@ namespace UserMasterNUnitTest
             ActionResult result = (ActionResult)controller.GetAllStore(1001);
             Assert.IsNotNull(result);
             Assert.AreEqual(((Microsoft.AspNetCore.Mvc.ObjectResult)result).StatusCode ,200);
-            Assert.AreEqual("Get all store successfully", ((EcommerceAPI.Model.ResponseModel)((Microsoft.AspNetCore.Mvc.ObjectResult)result).Value).ResponseMessage);
+            Assert.AreEqual("Get all store successfully", ((EcommerceAPI.Model.ResponseModel)((Microsoft.AspNetCore.Mvc.ObjectResult)result).Value).Message);
         }
         #endregion
         #region Testcases
