@@ -160,7 +160,7 @@ namespace Testproduct
 
 
         [Test]
-        public void GetAllProduct()
+        public void GetAllProductByStoreId()
         {
             var configuration = this.initConfiguration();
             var serviceCollection = new ServiceCollection();
@@ -180,6 +180,29 @@ namespace Testproduct
             Assert.IsNotNull(result);
             Assert.AreEqual(((Microsoft.AspNetCore.Mvc.ObjectResult)result).StatusCode, 200);
             Assert.AreEqual("Get all data successfully", ((EcommerceAPI.Model.ResponseModel)((Microsoft.AspNetCore.Mvc.ObjectResult)result).Value).Message);
+        }
+
+        [Test]
+        public void GetAll()
+        {
+            var configuration = this.initConfiguration();
+            var serviceCollection = new ServiceCollection();
+            serviceCollection.AddMemoryCache();
+
+            var serviceProvider = serviceCollection.BuildServiceProvider();
+            var memoryCache = serviceProvider.GetService<IMemoryCache>();
+
+
+            IProductRepository ProductRepository = new ProductRepository(configuration);
+            IEcomlogger EcomLoggerRepository = new EcomLoggerRepository();
+
+
+            ProductController controller = this.createController(ProductRepository, EcomLoggerRepository);
+
+            ActionResult result = (ActionResult)controller.GetAll();
+            Assert.IsNotNull(result);
+            Assert.AreEqual(((Microsoft.AspNetCore.Mvc.ObjectResult)result).StatusCode, 200);
+            Assert.AreEqual("GetAllProducts executed successfully.", ((EcommerceAPI.Model.ResponseModel)((Microsoft.AspNetCore.Mvc.ObjectResult)result).Value).Message);
         }
 
     }

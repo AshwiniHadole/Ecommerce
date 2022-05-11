@@ -110,7 +110,16 @@ namespace EcommerceAPI.Repository
             return abc;
 
         }
-        
+
+        public IEnumerable<Product> GetAll()
+        {
+            IEnumerable<Product> newproduct;
+            using (IDbConnection con = new SqlConnection(this._config.GetSection("ConnectionStrings").GetSection("DefaultConnection").Value))
+                newproduct = con.Query<Product>("SELECT Id,StoreId,CategoryId,Name,Description,ShowPrice,Price,FavNote,CreatedOn,createdBy,Active,ImagePath FROM Product WHERE Active=1");
+            return newproduct;
+        }      
+
     }
-}
+    }
+
 

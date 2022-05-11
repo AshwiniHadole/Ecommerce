@@ -4,7 +4,7 @@ namespace EcommerceAPI.Repository
 {
     public interface IProductRepository
     {
-
+        IEnumerable<Product> GetAll();
         public IEnumerable<Product> GetAllProduct(int StoreId1);
         public Product GetProductById(int id);
         void DeleteProduct(int Id);

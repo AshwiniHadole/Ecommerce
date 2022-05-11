@@ -21,7 +21,7 @@ namespace EcommerceAPI.Controllers
 
         }
         #region GetAllProduct
-        [HttpGet("GetAllProduct")]
+        [HttpGet("GetAllProductByStoreId")]
         public IActionResult GetAll(int StoreId)
         {
             ResponseModel model = new ResponseModel();
@@ -153,6 +153,30 @@ namespace EcommerceAPI.Controllers
             return result;
         }
         #endregion
+
+        [HttpGet("GetAllProduct")]
+        public IActionResult GetAll()
+        {
+            IActionResult result;
+            ResponseModel model = new ResponseModel();
+            try
+            {
+                this.logger.LogInfo("Get All Products.");
+                IEnumerable<Product> newproduct = this.productRepository.GetAll();
+                model.Data = newproduct;
+                model.Message = "GetAllProducts executed successfully.";
+                model.statusCode = HttpStatusCode.OK.ToString();
+                this.logger.LogInfo("All Products Displayed.");
+                result = Ok(model);
+            }
+            catch (Exception ex)
+            {
+                model.statusCode = HttpStatusCode.BadRequest.ToString();
+                this.logger.LogInfo(string.Format(ex.Message));
+                return BadRequest("Internal Server Error");
+            }
+            return result;
+        }
     }
 
 }
