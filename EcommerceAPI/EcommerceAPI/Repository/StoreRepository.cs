@@ -141,6 +141,7 @@ namespace EcommerceAPI.Repository
         }
         #endregion
         #region get stores
+
         public IEnumerable<Store> Getstores()
         {
             IEnumerable<Store> stlist = new List<Store>();

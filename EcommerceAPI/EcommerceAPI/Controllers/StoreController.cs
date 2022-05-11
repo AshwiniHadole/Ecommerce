@@ -163,6 +163,7 @@ namespace EcommerceAPI.Controllers
             return result;
         }
         #endregion
+
         [HttpGet("GetStores")]
         public IActionResult GetStores()
         {
