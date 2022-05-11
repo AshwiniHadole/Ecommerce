@@ -140,5 +140,19 @@ namespace EcommerceAPI.Repository
             }
         }
         #endregion
+        #region get stores
+
+        public IEnumerable<Store> Getstores()
+        {
+            IEnumerable<Store> stlist = new List<Store>();
+            using (IDbConnection Conn = new SqlConnection(this._config.GetSection("ConnectionStrings").GetSection("DefaultConnection").Value))
+            {
+                stlist = Conn.Query<Store>(@"SELECT StoreId,UserId,Name,TagLine,Theme,BackGroundImage,SupportsMultipleLang,StoreRoute,CreatedOn,CreatedBy,Active FROM TblStore WHERE  Active=1").ToList();
+         
+            }
+            return stlist;
+
+        }
+        #endregion
     }
 }

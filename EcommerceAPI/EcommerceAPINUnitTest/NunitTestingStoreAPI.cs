@@ -168,6 +168,31 @@ namespace UserMasterNUnitTest
             Assert.AreEqual("Store detail updated successfully", ((EcommerceAPI.Model.ResponseModel)((Microsoft.AspNetCore.Mvc.ObjectResult)result).Value).Message);
         }
         #endregion
+        #region Testcases
+        [Test]
+        public void GetStores()
+        {
+            var configuration = this.initConfiguration();
+            var serviceCollection = new ServiceCollection();
+            serviceCollection.AddMemoryCache();
+
+            var serviceProvider = serviceCollection.BuildServiceProvider();
+            var memoryCache = serviceProvider.GetService<IMemoryCache>();
+
+            IStoreRepository StoreRepository = new StoreRepository(configuration);
+            IEcomlogger EcomLoggerRepository = new EcomLoggerRepository();
+
+            StoreController controller = this.createController(StoreRepository, EcomLoggerRepository);
+
+            ActionResult result = (ActionResult)controller.GetStores();
+
+            Assert.IsNotNull(result);
+            Assert.AreEqual(((Microsoft.AspNetCore.Mvc.ObjectResult)result).StatusCode, 200);
+            Assert.AreEqual("Get All store successfully", ((EcommerceAPI.Model.ResponseModel)((Microsoft.AspNetCore.Mvc.ObjectResult)result).Value).Message);
+        }
+        #endregion
+
+
     }
 }
 
