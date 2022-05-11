@@ -1,5 +1,4 @@
-﻿using DataAnnotationsExtensions;
-using System;
+﻿using System;
 using System.ComponentModel.DataAnnotations;
 
 namespace EcommerceAPI.Model

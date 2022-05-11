@@ -59,7 +59,7 @@ namespace EcommerceAPI.Controllers
             {
                 Store obj = new Store();
                 this.logger.LogInfo("Called store by store Id");
-                obj = this.storeRepository.GetStoreById(5);
+                obj = this.storeRepository.GetStoreById(storeid);
                 model.Data = obj;
                 model.statusCode = HttpStatusCode.OK.ToString();
                 model.Message = "Get store by Id successfully";
@@ -162,6 +162,32 @@ namespace EcommerceAPI.Controllers
             }
             return result;
         }
-       #endregion
+        #endregion
+        [HttpGet("GetStores")]
+        public IActionResult GetStores()
+        {
+            ResponseModel model = new ResponseModel();
+            IActionResult result;
+            try
+            {
+                IEnumerable<Store> stlist = new List<Store>();
+                this.logger.LogInfo("Called store ");
+                stlist = this.storeRepository.Getstores();
+                model.Data = stlist;
+                model.statusCode = HttpStatusCode.OK.ToString();
+                model.Message = "Get All store successfully";
+                this.logger.LogInfo("Get all store ");
+                result = Ok(model);
+            }
+            catch (Exception ex)
+            {
+                model.statusCode = HttpStatusCode.InternalServerError.ToString();
+                model.Message = "InternalServerError";
+                result = new StatusCodeResult(500);
+                this.logger.LogError(string.Format(ex.Message));
+                return BadRequest("Internal Server Error.");
+            }
+            return result;
+        }
     }
 }
